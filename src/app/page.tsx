@@ -1,9 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { Chat } from "@/components/custom/chat";
 
 export default function Home() {
-  return (
-    <div>
-      <Button>Click me</Button>
-    </div>
-  );
+  return <Chat />;
 }
