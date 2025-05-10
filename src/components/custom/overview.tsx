@@ -36,8 +36,8 @@ export const Overview = () => {
           .
         </p>
         <p>
-          You can ask me only about the Next.js and TypeScript. I'll give you
-          short and concise reply only with text.
+          You can ask me only about the Next.js and TypeScript. It&apos;ll give
+          you short and concise reply only with text.
         </p>
       </div>
     </div>

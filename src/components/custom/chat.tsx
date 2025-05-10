@@ -55,7 +55,6 @@ export function Chat() {
             setInput={setInput}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
-            messages={messages}
             setMessages={setMessages}
           />
         </form>

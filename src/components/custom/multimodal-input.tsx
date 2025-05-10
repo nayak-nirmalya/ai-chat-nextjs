@@ -15,14 +15,12 @@ export function MultimodalInput({
   setInput,
   isLoading,
   setIsLoading,
-  messages,
   setMessages,
 }: {
   input: string;
   setInput: (value: string) => void;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
-  messages: Messages;
   setMessages: Dispatch<SetStateAction<Messages>>;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -87,6 +85,7 @@ export function MultimodalInput({
       ]);
     } catch (error) {
       toast.error("An error occurred while sending the message.");
+      console.error("Error: ", error);
     } finally {
       setInput("");
       setIsLoading(false);
