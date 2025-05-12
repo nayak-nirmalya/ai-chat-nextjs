@@ -9,6 +9,7 @@ import { Overview } from "@/components/custom/overview";
 import { UserAvatar } from "@/components/custom/user-avatar";
 import { BotAvatar } from "@/components/custom/bot-avatar";
 import { Weather } from "@/components/custom/weather";
+import { Stock } from "@/components/custom/stock";
 
 import { cn } from "@/lib/utils";
 
@@ -51,13 +52,20 @@ export function Chat() {
                               <Weather {...result} />
                             </div>
                           );
+                        } else if (toolName === "displayStockPrice") {
+                          const { result } = toolInvocation;
+                          return <Stock key={toolCallId} {...result} />;
                         }
                       } else {
                         return (
                           <div key={toolCallId}>
                             {toolName === "displayWeather" ? (
                               <div>Loading weather...</div>
-                            ) : null}
+                            ) : toolName === "displayStockPrice" ? (
+                              <div>Loading stock price...</div>
+                            ) : (
+                              <div>Loading...</div>
+                            )}
                           </div>
                         );
                       }
