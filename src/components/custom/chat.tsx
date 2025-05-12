@@ -12,6 +12,7 @@ import { Weather } from "@/components/custom/weather";
 import { Stock } from "@/components/custom/stock";
 import { Book } from "@/components/custom/book";
 import { Movie } from "@/components/custom/movie";
+import { Blog } from "@/components/custom/blog";
 
 import { cn } from "@/lib/utils";
 
@@ -58,6 +59,9 @@ export function Chat() {
                         } else if (toolName === "displayMovieDetails") {
                           const { result } = toolInvocation;
                           return <Movie key={toolCallId} {...result} />;
+                        } else if (toolName === "displayBlog") {
+                          const { result } = toolInvocation;
+                          return <Blog key={toolCallId} {...result} />;
                         }
                       } else {
                         return (
@@ -70,6 +74,8 @@ export function Chat() {
                               <div>Loading book details...</div>
                             ) : toolName === "displayMovieDetails" ? (
                               <div>Loading movie details...</div>
+                            ) : toolName === "displayBlog" ? (
+                              <div>Generating blog ...</div>
                             ) : (
                               <div>Loading...</div>
                             )}

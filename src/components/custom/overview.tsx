@@ -13,18 +13,20 @@ export const Overview = () => {
         </p>
         <div>
           I can help you with displaying information about:
-          <ul>
-            <li>* Weather for a location</li>
-            <li>* Stock prices for a company</li>
-            <li>* Details of a book</li>
-            <li>* Details of a movie</li>
+          <ul className="list-disc list-inside">
+            <li>Generate an article/blog/post</li>
+            <li>Weather for a location</li>
+            <li>Stock prices for a company</li>
+            <li>Details of a book</li>
+            <li>Details of a movie</li>
           </ul>
           Just tell me what you&apos;d like to know! For example, you could ask
-          <ul>
-            <li>What&apos;s the weather in London?</li>
-            <li>Display stock price for Google</li>
-            <li>Display book details of Beyond Good And Evil</li>
-            <li>Display movie details of Avatar.</li>
+          <ul className="list-disc list-inside">
+            <li>Write a blog about &apos;Lion&apos;</li>
+            <li>What&apos;s the weather in &apos;London&apos;?</li>
+            <li>Display stock price for &apos;Google&apos;</li>
+            <li>Display book details of &apos;Beyond Good And Evil&apos;</li>
+            <li>Display movie details of &apos;Avatar.&apos;</li>
           </ul>
         </div>
         <p>

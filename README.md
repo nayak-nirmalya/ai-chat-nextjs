@@ -29,6 +29,8 @@ An LLM Chat Interface with Tools Like
 
 - Display Movie Details
 
+- Generate & Display Blog/Post
+
 that generates React Components on the fly.
 
 Built with the latest Next.js 15, TypeScript, TailwindCSS, ShadCN, React.js & Vercel AI SDK.
@@ -42,6 +44,8 @@ Here are few prompts for each tool you can try.
 `Display book details of "Beyond Good And Evil".`
 
 `Display movie details of "Avatar".`
+
+`Write a blog about "Lion"`
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 

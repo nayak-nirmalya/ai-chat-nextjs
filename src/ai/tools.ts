@@ -108,9 +108,64 @@ export const movieDetailsTool = createTool({
   },
 });
 
+export const generateDummyTool = createTool({
+  description: "Generate dummy blog/post data for UI mockup with DummyJSON",
+  parameters: z.object({
+    blogAbout: z.string().describe("Generate dummy data for a blog about"),
+  }),
+  execute: async function ({ blogAbout }) {
+    const generateRandomNumber =
+      Math.floor(Math.random() * 14) + blogAbout.length;
+
+    const response = await fetch(
+      `https://dummyjson.com/posts/${generateRandomNumber}`
+    );
+    const blog = await response.json();
+    console.log(blog);
+
+    return {
+      title: blog.title,
+      body: blog.body,
+    };
+  },
+});
+
+export const generateDummyToolWithAI = createTool({
+  description: "Generate dummy blog/post/article data for UI mockup",
+  parameters: z.object({
+    blogAbout: z.string().describe("Generate dummy data for a blog about"),
+  }),
+  execute: async function ({ blogAbout }) {
+    const { object: blogDetails } = await generateObject({
+      model: google("gemini-2.5-flash-preview-04-17", {
+        structuredOutputs: true,
+      }),
+      schema: z.object({
+        title: z
+          .string()
+          .describe("The title of the blog in less than 40 characters"),
+        body: z
+          .string()
+          .describe(
+            "The body/description of the blog in less than 200 characters"
+          ),
+      }),
+      prompt: [
+        `The model tried to call the tool "generateDummyTool"` +
+          ` with the following arguments:`,
+        ` Blog Name: ${blogAbout}`,
+        `Please generate short concise dummy details.`,
+      ].join("\n"),
+    });
+
+    return blogDetails;
+  },
+});
+
 export const tools = {
   displayWeather: weatherTool,
   displayStockPrice: stockPriceTool,
   displayBookDetails: bookDetailsTool,
   displayMovieDetails: movieDetailsTool,
+  displayBlog: generateDummyToolWithAI,
 };
