@@ -13,6 +13,7 @@ import { Stock } from "@/components/custom/stock";
 
 import { cn } from "@/lib/utils";
 import { Book } from "./book";
+import { Movie } from "./movie";
 
 export function Chat() {
   const { messages, input, setInput, handleSubmit, status, stop, isLoading } =
@@ -59,6 +60,9 @@ export function Chat() {
                         } else if (toolName === "displayBookDetails") {
                           const { result } = toolInvocation;
                           return <Book key={toolCallId} {...result} />;
+                        } else if (toolName === "displayMovieDetails") {
+                          const { result } = toolInvocation;
+                          return <Movie key={toolCallId} {...result} />;
                         }
                       } else {
                         return (
@@ -69,6 +73,8 @@ export function Chat() {
                               <div>Loading stock price...</div>
                             ) : toolName === "displayBookDetails" ? (
                               <div>Loading book details...</div>
+                            ) : toolName === "displayMovieDetails" ? (
+                              <div>Loading movie details...</div>
                             ) : (
                               <div>Loading...</div>
                             )}

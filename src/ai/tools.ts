@@ -80,8 +80,37 @@ export const bookDetailsTool = createTool({
   },
 });
 
+export const movieDetailsTool = createTool({
+  description: "Display details of a movie",
+  parameters: z.object({
+    movieName: z.string().describe("The name of the movie to get details for"),
+  }),
+  execute: async function ({ movieName }) {
+    const { object: movieDetails } = await generateObject({
+      model: google("gemini-2.5-flash-preview-04-17", {
+        structuredOutputs: true,
+      }),
+      schema: z.object({
+        name: z.string().describe("The name of the movie"),
+        director: z.string().describe("The name of the movie director"),
+        genre: z.string().describe("The genre of the movie"),
+        releaseYear: z.string().describe("The release Year of the movie"),
+      }),
+      prompt: [
+        `The model tried to call the tool "movieDetailsTool"` +
+          ` with the following arguments:`,
+        ` Movie Name: ${movieName}`,
+        `Please provide the name, director, genre & release Year of the movie.`,
+      ].join("\n"),
+    });
+
+    return movieDetails;
+  },
+});
+
 export const tools = {
   displayWeather: weatherTool,
   displayStockPrice: stockPriceTool,
   displayBookDetails: bookDetailsTool,
+  displayMovieDetails: movieDetailsTool,
 };
