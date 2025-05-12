@@ -1,21 +1,23 @@
 "use client";
 
-import { useState } from "react";
 import { Loader } from "lucide-react";
+import { useChat } from "@ai-sdk/react";
 
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 import { MultimodalInput } from "@/components/custom/multimodal-input";
 import { Overview } from "@/components/custom/overview";
 import { UserAvatar } from "@/components/custom/user-avatar";
 import { BotAvatar } from "@/components/custom/bot-avatar";
+import { Weather } from "@/components/custom/weather";
+import { Stock } from "@/components/custom/stock";
+import { Book } from "@/components/custom/book";
+import { Movie } from "@/components/custom/movie";
+import { Blog } from "@/components/custom/blog";
 
-import { Messages } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export function Chat() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Messages>([]);
+  const { messages, input, setInput, handleSubmit, isLoading } = useChat();
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
@@ -33,8 +35,54 @@ export function Chat() {
               <div key={index} className="flex flex-row gap-2">
                 <div className={cn("flex gap-2 items-center")}>
                   {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                  <div className="text-base bg-muted p-3 rounded-lg">
-                    {message.text}
+
+                  {message.toolInvocations ? null : (
+                    <div className="text-base bg-muted p-3 rounded-lg">
+                      {message.content}
+                    </div>
+                  )}
+
+                  <div>
+                    {message.toolInvocations?.map((toolInvocation) => {
+                      const { toolName, toolCallId, state } = toolInvocation;
+
+                      if (state === "result") {
+                        if (toolName === "displayWeather") {
+                          const { result } = toolInvocation;
+                          return <Weather key={toolCallId} {...result} />;
+                        } else if (toolName === "displayStockPrice") {
+                          const { result } = toolInvocation;
+                          return <Stock key={toolCallId} {...result} />;
+                        } else if (toolName === "displayBookDetails") {
+                          const { result } = toolInvocation;
+                          return <Book key={toolCallId} {...result} />;
+                        } else if (toolName === "displayMovieDetails") {
+                          const { result } = toolInvocation;
+                          return <Movie key={toolCallId} {...result} />;
+                        } else if (toolName === "displayBlog") {
+                          const { result } = toolInvocation;
+                          return <Blog key={toolCallId} {...result} />;
+                        }
+                      } else {
+                        return (
+                          <div key={toolCallId}>
+                            {toolName === "displayWeather" ? (
+                              <div>Loading weather...</div>
+                            ) : toolName === "displayStockPrice" ? (
+                              <div>Loading stock price...</div>
+                            ) : toolName === "displayBookDetails" ? (
+                              <div>Loading book details...</div>
+                            ) : toolName === "displayMovieDetails" ? (
+                              <div>Loading movie details...</div>
+                            ) : toolName === "displayBlog" ? (
+                              <div>Generating blog ...</div>
+                            ) : (
+                              <div>Loading...</div>
+                            )}
+                          </div>
+                        );
+                      }
+                    })}
                   </div>
                 </div>
               </div>
@@ -54,8 +102,7 @@ export function Chat() {
             input={input}
             setInput={setInput}
             isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            setMessages={setMessages}
+            handleSubmit={handleSubmit}
           />
         </form>
       </div>

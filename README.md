@@ -19,7 +19,33 @@
 
 ## <a name="introduction">🤖 Introduction</a>
 
-An LLM (Only Text Based for Now) Chat Interface. Built with the latest Next.js 15, TypeScript, TailwindCSS, ShadCN, React.js & Vercel AI SDK.
+An LLM Chat Interface with Tools Like
+
+- Display Weather
+
+- Display Stock Details
+
+- Display Book Details
+
+- Display Movie Details
+
+- Generate & Display Blog/Post
+
+that generates React Components on the fly.
+
+Built with the latest Next.js 15, TypeScript, TailwindCSS, ShadCN, React.js & Vercel AI SDK.
+
+Here are few prompts for each tool you can try.
+
+`Whats the weather in Paris?`
+
+`Whats the stock price for Apple?`
+
+`Display book details of "Beyond Good And Evil".`
+
+`Display movie details of "Avatar".`
+
+`Write a blog about "Lion"`
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
@@ -105,6 +131,7 @@ Create a new file named `.env.local` in the root of your project and add the fol
 
 ```env
 GOOGLE_GENERATIVE_AI_API_KEY="your-gemin-api-key"
+WEATHER_API_KEY="weather-api-key"
 ```
 
 **Running the Project**
