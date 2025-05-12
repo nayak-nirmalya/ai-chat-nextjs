@@ -9,7 +9,7 @@ export const Stock = ({
 }) => {
   return (
     <div className="flex flex-col gap-2 p-4 bg-muted rounded-lg">
-      <h2>Stock Information</h2>
+      <h2 className="font-bold">Stock Information</h2>
       <p>
         Name: <span className="text-lg font-black">{name}</span>
       </p>

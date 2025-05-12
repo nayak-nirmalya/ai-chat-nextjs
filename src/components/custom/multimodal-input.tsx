@@ -13,13 +13,11 @@ export function MultimodalInput({
   input,
   setInput,
   isLoading,
-  stop,
   handleSubmit,
 }: {
   input: string;
   setInput: (value: string) => void;
   isLoading: boolean;
-  stop: () => void;
   handleSubmit: (
     event?: {
       preventDefault?: () => void;
@@ -58,61 +56,11 @@ export function MultimodalInput({
     }
   }, [handleSubmit, width]);
 
-  // const submitForm = async () => {
-  //   if (input.length === 0) return;
-
-  //   if (isLoading) {
-  //     toast.error("Please wait for the model to finish its response!");
-  //     return;
-  //   }
-
-  //   setMessages((prevMessages) => [
-  //     ...prevMessages,
-  //     { role: "user", text: input, createdAt: new Date().toISOString() },
-  //   ]);
-
-  //   try {
-  //     setIsLoading(true);
-
-  //     const response = await fetch("/api/chat", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ input }),
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const data = await response.json();
-
-  //     setMessages((prevMessages) => [
-  //       ...prevMessages,
-  //       {
-  //         role: "assistant",
-  //         text: data.text,
-  //         createdAt: new Date().toISOString(),
-  //       },
-  //     ]);
-  //   } catch (error) {
-  //     toast.error("An error occurred while sending the message.");
-  //     console.error("Error: ", error);
-  //   } finally {
-  //     setInput("");
-  //     setIsLoading(false);
-  //   }
-
-  //   if (width && width > 768) {
-  //     textareaRef.current?.focus();
-  //   }
-  // };
-
   return (
     <div className="relative w-full flex flex-col gap-4">
       <Textarea
         ref={textareaRef}
-        placeholder="Send a message about Next.js & TypeScript ..."
+        placeholder="Send a message ..."
         value={input}
         onChange={handleInput}
         className="min-h-[120px] overflow-hidden resize-none rounded-lg text-base bg-muted border-none"

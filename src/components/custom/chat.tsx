@@ -10,14 +10,13 @@ import { UserAvatar } from "@/components/custom/user-avatar";
 import { BotAvatar } from "@/components/custom/bot-avatar";
 import { Weather } from "@/components/custom/weather";
 import { Stock } from "@/components/custom/stock";
+import { Book } from "@/components/custom/book";
+import { Movie } from "@/components/custom/movie";
 
 import { cn } from "@/lib/utils";
-import { Book } from "./book";
-import { Movie } from "./movie";
 
 export function Chat() {
-  const { messages, input, setInput, handleSubmit, status, stop, isLoading } =
-    useChat();
+  const { messages, input, setInput, handleSubmit, isLoading } = useChat();
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
@@ -49,11 +48,7 @@ export function Chat() {
                       if (state === "result") {
                         if (toolName === "displayWeather") {
                           const { result } = toolInvocation;
-                          return (
-                            <div key={toolCallId}>
-                              <Weather {...result} />
-                            </div>
-                          );
+                          return <Weather key={toolCallId} {...result} />;
                         } else if (toolName === "displayStockPrice") {
                           const { result } = toolInvocation;
                           return <Stock key={toolCallId} {...result} />;
@@ -101,7 +96,6 @@ export function Chat() {
             input={input}
             setInput={setInput}
             isLoading={isLoading}
-            stop={stop}
             handleSubmit={handleSubmit}
           />
         </form>
