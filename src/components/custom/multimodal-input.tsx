@@ -1,27 +1,31 @@
 "use client";
 
-import React, { useRef, useEffect, Dispatch, SetStateAction } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { toast } from "sonner";
+import { ChatRequestOptions } from "ai";
 
 import { ArrowUpIcon, StopIcon } from "@/components/custom/icons";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import useWindowSize from "@/components/custom/use-window-size";
 
-import { Messages } from "@/lib/types";
-
 export function MultimodalInput({
   input,
   setInput,
   isLoading,
-  setIsLoading,
-  setMessages,
+  stop,
+  handleSubmit,
 }: {
   input: string;
   setInput: (value: string) => void;
   isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  setMessages: Dispatch<SetStateAction<Messages>>;
+  stop: () => void;
+  handleSubmit: (
+    event?: {
+      preventDefault?: () => void;
+    },
+    chatRequestOptions?: ChatRequestOptions
+  ) => void;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
@@ -46,55 +50,63 @@ export function MultimodalInput({
     adjustHeight();
   };
 
-  const submitForm = async () => {
-    if (input.length === 0) return;
-
-    if (isLoading) {
-      toast.error("Please wait for the model to finish its response!");
-      return;
-    }
-
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { role: "user", text: input, createdAt: new Date().toISOString() },
-    ]);
-
-    try {
-      setIsLoading(true);
-
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ input }),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          role: "assistant",
-          text: data.text,
-          createdAt: new Date().toISOString(),
-        },
-      ]);
-    } catch (error) {
-      toast.error("An error occurred while sending the message.");
-      console.error("Error: ", error);
-    } finally {
-      setInput("");
-      setIsLoading(false);
-    }
+  const submitForm = useCallback(() => {
+    handleSubmit();
 
     if (width && width > 768) {
       textareaRef.current?.focus();
     }
-  };
+  }, [handleSubmit, width]);
+
+  // const submitForm = async () => {
+  //   if (input.length === 0) return;
+
+  //   if (isLoading) {
+  //     toast.error("Please wait for the model to finish its response!");
+  //     return;
+  //   }
+
+  //   setMessages((prevMessages) => [
+  //     ...prevMessages,
+  //     { role: "user", text: input, createdAt: new Date().toISOString() },
+  //   ]);
+
+  //   try {
+  //     setIsLoading(true);
+
+  //     const response = await fetch("/api/chat", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ input }),
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await response.json();
+
+  //     setMessages((prevMessages) => [
+  //       ...prevMessages,
+  //       {
+  //         role: "assistant",
+  //         text: data.text,
+  //         createdAt: new Date().toISOString(),
+  //       },
+  //     ]);
+  //   } catch (error) {
+  //     toast.error("An error occurred while sending the message.");
+  //     console.error("Error: ", error);
+  //   } finally {
+  //     setInput("");
+  //     setIsLoading(false);
+  //   }
+
+  //   if (width && width > 768) {
+  //     textareaRef.current?.focus();
+  //   }
+  // };
 
   return (
     <div className="relative w-full flex flex-col gap-4">

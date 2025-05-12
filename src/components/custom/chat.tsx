@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Loader } from "lucide-react";
+import { useChat } from "@ai-sdk/react";
 
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 import { MultimodalInput } from "@/components/custom/multimodal-input";
@@ -9,13 +9,11 @@ import { Overview } from "@/components/custom/overview";
 import { UserAvatar } from "@/components/custom/user-avatar";
 import { BotAvatar } from "@/components/custom/bot-avatar";
 
-import { Messages } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export function Chat() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Messages>([]);
+  const { messages, input, setInput, handleSubmit, status, stop, isLoading } =
+    useChat();
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
@@ -34,7 +32,7 @@ export function Chat() {
                 <div className={cn("flex gap-2 items-center")}>
                   {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                   <div className="text-base bg-muted p-3 rounded-lg">
-                    {message.text}
+                    {message.content}
                   </div>
                 </div>
               </div>
@@ -54,8 +52,8 @@ export function Chat() {
             input={input}
             setInput={setInput}
             isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            setMessages={setMessages}
+            stop={stop}
+            handleSubmit={handleSubmit}
           />
         </form>
       </div>
