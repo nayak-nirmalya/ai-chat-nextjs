@@ -12,6 +12,7 @@ import { Weather } from "@/components/custom/weather";
 import { Stock } from "@/components/custom/stock";
 
 import { cn } from "@/lib/utils";
+import { Book } from "./book";
 
 export function Chat() {
   const { messages, input, setInput, handleSubmit, status, stop, isLoading } =
@@ -55,6 +56,9 @@ export function Chat() {
                         } else if (toolName === "displayStockPrice") {
                           const { result } = toolInvocation;
                           return <Stock key={toolCallId} {...result} />;
+                        } else if (toolName === "displayBookDetails") {
+                          const { result } = toolInvocation;
+                          return <Book key={toolCallId} {...result} />;
                         }
                       } else {
                         return (
@@ -63,6 +67,8 @@ export function Chat() {
                               <div>Loading weather...</div>
                             ) : toolName === "displayStockPrice" ? (
                               <div>Loading stock price...</div>
+                            ) : toolName === "displayBookDetails" ? (
+                              <div>Loading book details...</div>
                             ) : (
                               <div>Loading...</div>
                             )}
