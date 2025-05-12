@@ -1,21 +1,18 @@
-import { Message, streamText } from "ai";
+import { streamText } from "ai";
 
 import { geminiFlashModel } from "@/ai";
+import { tools } from "@/ai/tools";
 
 export async function POST(request: Request) {
-  const { messages }: { id: string; messages: Array<Message> } =
-    await request.json();
+  const { messages } = await request.json();
 
   const result = await streamText({
     model: geminiFlashModel,
     system:
-      "You are a helpful assistant. " +
-      "You write simple, clear, and concise content." +
-      "You can only answer in English." +
-      "You can only in simple plain text." +
-      "You can answer question only about Next.js, React & TypeScript" +
-      "You are made by Nirmalya Nayak.",
+      "You are a friendly assistant! You can use tools to get information.",
     messages,
+    maxSteps: 5,
+    tools,
     temperature: 0.5,
   });
 

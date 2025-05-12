@@ -8,6 +8,7 @@ import { MultimodalInput } from "@/components/custom/multimodal-input";
 import { Overview } from "@/components/custom/overview";
 import { UserAvatar } from "@/components/custom/user-avatar";
 import { BotAvatar } from "@/components/custom/bot-avatar";
+import { Weather } from "@/components/custom/weather";
 
 import { cn } from "@/lib/utils";
 
@@ -31,8 +32,36 @@ export function Chat() {
               <div key={index} className="flex flex-row gap-2">
                 <div className={cn("flex gap-2 items-center")}>
                   {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                  <div className="text-base bg-muted p-3 rounded-lg">
-                    {message.content}
+
+                  {message.toolInvocations ? null : (
+                    <div className="text-base bg-muted p-3 rounded-lg">
+                      {message.content}
+                    </div>
+                  )}
+
+                  <div>
+                    {message.toolInvocations?.map((toolInvocation) => {
+                      const { toolName, toolCallId, state } = toolInvocation;
+
+                      if (state === "result") {
+                        if (toolName === "displayWeather") {
+                          const { result } = toolInvocation;
+                          return (
+                            <div key={toolCallId}>
+                              <Weather {...result} />
+                            </div>
+                          );
+                        }
+                      } else {
+                        return (
+                          <div key={toolCallId}>
+                            {toolName === "displayWeather" ? (
+                              <div>Loading weather...</div>
+                            ) : null}
+                          </div>
+                        );
+                      }
+                    })}
                   </div>
                 </div>
               </div>
