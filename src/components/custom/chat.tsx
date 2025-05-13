@@ -2,6 +2,7 @@
 
 import { Loader } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
+import ReactMarkdown from "react-markdown";
 
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 import { MultimodalInput } from "@/components/custom/multimodal-input";
@@ -36,11 +37,11 @@ export function Chat() {
                 <div className={cn("flex gap-2 items-center")}>
                   {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
 
-                  {message.toolInvocations ? null : (
+                  {!message.toolInvocations ? (
                     <div className="text-base bg-muted p-3 rounded-lg">
-                      {message.content}
+                      <ReactMarkdown>{message.content}</ReactMarkdown>
                     </div>
-                  )}
+                  ) : null}
 
                   <div>
                     {message.toolInvocations?.map((toolInvocation) => {
