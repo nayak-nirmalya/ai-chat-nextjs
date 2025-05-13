@@ -48,21 +48,19 @@ export function Chat() {
                       const { toolName, toolCallId, state } = toolInvocation;
 
                       if (state === "result") {
-                        if (toolName === "displayWeather") {
-                          const { result } = toolInvocation;
-                          return <Weather key={toolCallId} {...result} />;
-                        } else if (toolName === "displayStockPrice") {
-                          const { result } = toolInvocation;
-                          return <Stock key={toolCallId} {...result} />;
-                        } else if (toolName === "displayBookDetails") {
-                          const { result } = toolInvocation;
-                          return <Book key={toolCallId} {...result} />;
-                        } else if (toolName === "displayMovieDetails") {
-                          const { result } = toolInvocation;
-                          return <Movie key={toolCallId} {...result} />;
-                        } else if (toolName === "displayBlog") {
-                          const { result } = toolInvocation;
-                          return <Blog key={toolCallId} {...result} />;
+                        const { result } = toolInvocation;
+
+                        switch (toolName) {
+                          case "displayWeather":
+                            return <Weather key={toolCallId} {...result} />;
+                          case "displayStockPrice":
+                            return <Stock key={toolCallId} {...result} />;
+                          case "displayBookDetails":
+                            return <Book key={toolCallId} {...result} />;
+                          case "displayMovieDetails":
+                            return <Movie key={toolCallId} {...result} />;
+                          case "displayBlog":
+                            return <Blog key={toolCallId} {...result} />;
                         }
                       } else {
                         return (
